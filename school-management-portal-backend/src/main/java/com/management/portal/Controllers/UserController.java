@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +23,14 @@ import com.management.portal.services.UserServices;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin("http://localhost:4200/")
 public class UserController {
 
 	@Autowired
 	private UserServices userServices;
 
 	@PostMapping("/saveUser")
-	public User saveUser(@RequestBody User user) throws Exception {
+	public void saveUser(@RequestBody User user) throws Exception {
 		
 		Set<UserRol>roles = new HashSet<>();
 		
@@ -43,10 +46,24 @@ public class UserController {
 		
 		roles.add(userRol);
 		
-	
+		userServices.saveUser(user, roles);
 		
 
-		return userServices.saveUser(user, roles);
 	}
+	
+	@GetMapping({"","/"})
+	public void home() 
+	
+	{}
+	
+	@GetMapping("login")
+	public void login() 
+	
+	{}
+	
+	@GetMapping("signup")
+	public void signup() 
+	
+	{}
 
 }
